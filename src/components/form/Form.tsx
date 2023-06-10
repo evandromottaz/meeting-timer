@@ -27,7 +27,7 @@ const Form = () => {
 
 				<Treasures />
 
-				{/* <MinistryField /> */}
+				<MinistryField />
 
 				<ChristianLife />
 

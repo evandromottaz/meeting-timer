@@ -21,7 +21,7 @@ const MinistryField = () => {
 					<Fragment key={id}>
 						<section className="row">
 							<Input
-								{...register(`ministryField.${i}.name`)}
+								name={`ministryField.${i}.name`}
 								placeholder="Nome"
 							/>
 						</section>
