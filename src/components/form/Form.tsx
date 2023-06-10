@@ -31,7 +31,9 @@ const Form = () => {
 
 				<ChristianLife />
 
-				<Fieldset title="Comentários Finais" />
+				<Heading timeName={finalWatched} name="finalComments">
+					Comentários Finais
+				</Heading>
 				<input type="submit" />
 			</form>
 		</FormProvider>
