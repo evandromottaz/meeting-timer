@@ -23,7 +23,11 @@ const MinistryField = () => {
 
 				return (
 					<Fragment key={id}>
-						<section className="row">
+						<section
+							className={`row ${
+								!isFirstIndex(i) ? "row--border" : ""
+							}`}
+						>
 							<InputTimer
 								name={`ministryField.${i}.name`}
 								timeName={watch(`ministryField.${i}.time`)}
