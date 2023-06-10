@@ -1,11 +1,10 @@
 .button {
 	font-size: 1rem;
-	background-color: transparent;
 	background: #00000050;
 	border: none;
 	text-transform: uppercase;
 	padding-inline: var(--gap);
 	font-weight: 600;
 	height: 3.125rem;
-	justify-self: center;
+	width: 100%;
 }
