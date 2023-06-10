@@ -1,45 +1,59 @@
-import React, { useEffect, useState } from 'react'
-import { StartButton, StopButton } from './Buttons'
-import * as C from './TimerStyled'
+import "./timer.css";
+import { IconContext, Pause, Play } from "@phosphor-icons/react";
+import useTimer from "../../hooks/useTimer";
+import { InputElement } from "../input/Input";
+import { useFormContext } from "react-hook-form";
+import { useEffect } from "react";
 
-const fixTimeUnits = (units: number) => units < 10 ? `0${units}` : units
-
-function formatTime(timeInSeconds: number) {
-  const minutes = Math.floor(timeInSeconds / 60)
-  const seconds = timeInSeconds % 60
-
-  return (`${fixTimeUnits(minutes)} : ${fixTimeUnits(seconds)}`)
+interface TimerProps {
+	style?: object;
+	name: string;
 }
 
-const Timer = () => {
-  console.log('Timer render')
-  const [start, setStart] = useState(false)
-  const [seconds, setSeconds] = useState(0)
-  const label = formatTime(seconds)
+const Timer = ({ style, name, ...inputProps }: TimerProps) => {
+	const { label, start, setStart } = useTimer();
+	const { setValue } = useFormContext();
 
-  useEffect(() => {
-    if(!start) return
-    formatTime(seconds)
+	useEffect(() => {
+		setValue(name, label);
+	}, [label]);
 
-    const interval = setInterval(() => {
-      setSeconds(prev => prev + 1)
-    }, 1000)
+	return (
+		<article className="timer" style={{ ...style }}>
+			<InputElement
+				name={name}
+				{...inputProps}
+				value={label}
+				required={false}
+				hidden
+			/>
+			<IconContext.Provider
+				value={{
+					color: "var(--jw-color)",
+					size: 50,
+					weight: "duotone",
+					onClick: () => setStart(!start),
+				}}
+			>
+				{start ? <Pause /> : <Play />}
+			</IconContext.Provider>
+		</article>
+	);
+};
 
-    return () => {
-      clearInterval(interval)
-    }
-  }, [seconds, start])
+export const TimerLabel = ({
+	label,
+	style,
+	...props
+}: {
+	label: string;
+	style?: object;
+}) => {
+	return (
+		<label className="timer__label" style={{ ...style }} {...props}>
+			{label}
+		</label>
+	);
+};
 
-  return (
-    <C.Container>
-      <C.Label>
-        {label}
-      </C.Label>
-
-      {!start && <StartButton onClick={() => setStart(true)} />}
-      {start && <StopButton onClick={() => setStart(false)}/>}
-    </C.Container>
-  )
-}
-
-export default Timer
+export default Timer;

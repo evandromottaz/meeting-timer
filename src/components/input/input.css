@@ -1,0 +1,51 @@
+.input__element {
+	width: 100%;
+	font-size: 1.3rem;
+	background-color: transparent;
+	border: none;
+	outline: none;
+	height: 100%;
+	padding-left: 1rem;
+	translate: 0px 10px;
+}
+
+.input__element:-webkit-autofill,
+.input__element:-webkit-autofill:focus {
+	box-shadow: inset 0 0 0 100px #3b3b3b;
+	border: none;
+}
+
+.input__element:focus ~ .input__placeholder,
+.input__element:valid ~ .input__placeholder {
+	translate: -11px -17px;
+	font-size: 0.8rem;
+	opacity: 1;
+}
+
+.input {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	background: #3b3b3b;
+	border: 2px solid var(--border);
+	height: 3.5rem;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+
+.input-row {
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+.input__placeholder {
+	transition: var(--ms) translate, var(--ms) font-size;
+	font-size: 1.2rem;
+	pointer-events: none;
+	z-index: 1;
+	opacity: 0.5;
+	padding-left: 1rem;
+	position: absolute;
+}
