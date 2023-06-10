@@ -8,16 +8,20 @@ import Fieldset from "../fieldset/Fieldset";
 import Heading from "../heading/Heading";
 import Button from "../button/Button";
 import { FileText } from "@phosphor-icons/react";
+import usePDF from "../../hooks/usePDF";
+import { useRef } from "react";
 
 const Form = () => {
 	const methods = useForm({ defaultValues: meetingSchedule });
 	const { handleSubmit, watch } = methods;
 	const initialWatched = watch("initialComments");
 	const finalWatched = watch("finalComments");
+	const screenRef = useRef(null);
+	const renderPDF = usePDF();
 
 	return (
 		<FormProvider {...methods}>
-			<form onSubmit={handleSubmit((data) => console.log(data))}>
+			<form ref={screenRef} onSubmit={handleSubmit(renderPDF)}>
 				<Fieldset>
 					<Input name="president" placeholder="Presidente" />
 					<Heading timeName={initialWatched} name="initialComments">
