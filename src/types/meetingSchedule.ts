@@ -8,11 +8,11 @@ type treasuresTypes = valuesTypes & placeholder;
 type ministryFieldTypes = valuesTypes & advice;
 
 export interface FormValues {
-	president: "";
-	initialComments: "";
+	president: string;
+	initialComments: string;
 	treasures: treasuresTypes[];
 	ministryField: ministryFieldTypes[];
 	christianLife: valuesTypes[];
 	bibleStudy: valuesTypes;
-	finalComments: "";
+	finalComments: string;
 }
