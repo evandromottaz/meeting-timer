@@ -8,11 +8,17 @@ import { useEffect } from "react";
 interface TimerProps {
 	style?: object;
 	name: string;
+	setIsStart?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Timer = ({ style, name, ...inputProps }: TimerProps) => {
+const Timer = ({ style, name, setIsStart, ...inputProps }: TimerProps) => {
 	const { label, start, setStart } = useTimer();
 	const { setValue } = useFormContext();
+
+	function handleTime() {
+		setStart(!start);
+		if (setIsStart) setIsStart(!start);
+	}
 
 	useEffect(() => {
 		setValue(name, label);
@@ -32,7 +38,7 @@ const Timer = ({ style, name, ...inputProps }: TimerProps) => {
 					color: "var(--jw-color)",
 					size: 50,
 					weight: "duotone",
-					onClick: () => setStart(!start),
+					onClick: handleTime,
 				}}
 			>
 				{start ? <Pause /> : <Play />}
