@@ -8,3 +8,16 @@
 	height: 3.125rem;
 	width: 100%;
 }
+
+[type="submit"] {
+	background-color: var(--jw-color);
+	margin-top: var(--gap);
+	font-size: 1.2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--gap);
+	height: auto;
+	padding: 0.5rem 0;
+	border: 2px solid white;
+}

@@ -2,12 +2,12 @@ import { FormProvider, useForm } from "react-hook-form";
 import { meetingSchedule } from "../../constants/schedule";
 import Treasures from "../../templates/Treasures";
 import ChristianLife from "../../templates/ChristianLife";
-import { FormValues } from "../../types/meetingSchedule";
 import MinistryField from "../../templates/MinistryField";
 import Input from "../input/Input";
 import Fieldset from "../fieldset/Fieldset";
 import Heading from "../heading/Heading";
-import Timer from "../timer/Timer";
+import Button from "../button/Button";
+import { FileText } from "@phosphor-icons/react";
 
 const Form = () => {
 	const methods = useForm({ defaultValues: meetingSchedule });
@@ -34,7 +34,11 @@ const Form = () => {
 				<Heading timeName={finalWatched} name="finalComments">
 					Comentários Finais
 				</Heading>
-				<input type="submit" />
+
+				<Button type="submit">
+					<span>Gerar PDF</span>
+					<FileText size={40} />
+				</Button>
 			</form>
 		</FormProvider>
 	);
