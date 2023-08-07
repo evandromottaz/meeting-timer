@@ -1,62 +1,67 @@
-import { FormValues } from "../types/meetingSchedule";
+import { FormValuesProps } from "../types/meetingSchedule";
 import { isFirstIndex } from "../utils/validations";
-import { values } from "../constants/schedule";
+import { meetingSchedule } from "../constants/schedule";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import Button from "../components/button/Button";
 import { Fragment } from "react";
 import { InputTimer } from "../components/input/Input";
 import Fieldset from "../components/fieldset/Fieldset";
 import Timer from "../components/timer/Timer";
+import { QUERY } from "../constants/query";
+
+const { christianLife } = meetingSchedule;
 
 const ChristianLife = () => {
-	const { control, watch } = useFormContext<FormValues>();
+	const { control } = useFormContext<FormValuesProps>();
 	const { fields, insert, remove } = useFieldArray({
 		control,
 		name: `christianLife` as const,
 	});
 
 	return (
-		<Fieldset title="Nossa Vida Cristã">
-			{fields.map(({ id }, i) => {
-				return (
-					<Fragment key={id}>
-						<section
-							className={`row ${
-								!isFirstIndex(i) ? "row--border" : ""
-							}`}
+		<Fieldset title={christianLife.title}>
+			{fields.map(({ id }, i) => (
+				<Fragment key={id}>
+					<section
+						className={`row ${
+							!isFirstIndex(i) ? "row--border" : ""
+						}`}
+					>
+						<InputTimer
+							name={QUERY.CHRISTIAN_LIFE.NAME(i)}
+							timerName={QUERY.CHRISTIAN_LIFE.TIME(i)}
+							placeholder={christianLife.placeholder}
+						/>
+						<Timer name={QUERY.CHRISTIAN_LIFE.TIME(i)} />
+					</section>
+
+					<section className="row">
+						<Button
+							style={{
+								...christianLife.addButton.style,
+							}}
+							onClick={() =>
+								insert(i + 1, values, {
+									shouldFocus: false,
+								})
+							}
 						>
-							<InputTimer
-								timeName={watch(`christianLife.${i}.time`)}
-								name={`christianLife.${i}.name`}
-								placeholder="Nome"
-							/>
-							<Timer name={`christianLife.${i}.time`} />
-						</section>
+							{christianLife.addButton.placeholder}
+						</Button>
 
-						<section className="row">
+						{!isFirstIndex(i) && (
 							<Button
-								style={{ flex: 1 }}
-								onClick={() =>
-									insert(i + 1, values, {
-										shouldFocus: false,
-									})
-								}
+								style={{
+									...christianLife.addButton.style,
+								}}
+								onClick={() => remove(i)}
 							>
-								Adicionar
+								{christianLife.removeButton.placeholder}
 							</Button>
-
-							{!isFirstIndex(i) && (
-								<Button
-									style={{ flex: 1 }}
-									onClick={() => remove(i)}
-								>
-									Remover
-								</Button>
-							)}
-						</section>
-					</Fragment>
-				);
-			})}
+						)}
+					</section>
+				</Fragment>
+			))}
 		</Fieldset>
 	);
 };
