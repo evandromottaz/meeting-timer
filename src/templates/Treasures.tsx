@@ -1,30 +1,31 @@
-import { useFieldArray, useFormContext } from "react-hook-form";
-import { FormValues } from "../types/meetingSchedule";
 import { InputTimer } from "../components/input/Input";
 import Fieldset from "../components/fieldset/Fieldset";
 import Timer from "../components/timer/Timer";
+import { meetingSchedule } from "../constants/schedule";
+import { QUERY } from "../constants/query";
 
 const Treasures = () => {
-	const { control, watch } = useFormContext<FormValues>();
-	const { fields } = useFieldArray({
-		control,
-		name: `treasures` as const,
-	});
-
 	return (
 		<Fieldset title="Tesouros da Palavra de Deus">
-			{fields.map(({ placeholder, id }, i) => {
-				return (
-					<section key={id} className="row">
-						<InputTimer
-							name={`treasures.${i}.name`}
-							timeName={watch(`treasures.${i}.time`)}
-							placeholder={placeholder}
-						/>
-						<Timer name={`treasures.${i}.time`} />
-					</section>
-				);
-			})}
+			<section className="row">
+				<InputTimer
+					name={QUERY.TREASURES.TREASURE.NAME}
+					timerName={QUERY.TREASURES.TREASURE.TIME}
+					placeholder={meetingSchedule.treasures.treasure.placeholder}
+				/>
+				<Timer name={QUERY.TREASURES.TREASURE.TIME} />
+			</section>
+
+			<section className="row">
+				<InputTimer
+					name={QUERY.TREASURES.FIND_TREASURES.NAME}
+					timerName={QUERY.TREASURES.FIND_TREASURES.TIME}
+					placeholder={
+						meetingSchedule.treasures.findTreasures.placeholder
+					}
+				/>
+				<Timer name={QUERY.TREASURES.FIND_TREASURES.TIME} />
+			</section>
 		</Fieldset>
 	);
 };

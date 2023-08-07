@@ -1,50 +1,108 @@
-import {
-	FormValueType as FormValue,
-	FormValuesProps,
-} from "../types/meetingSchedule";
-
-const name = { name: "" };
-const time = { time: "" };
-const advice = { advice: "" };
-export const values = { ...name, ...time };
-export const ministryField = { ...values, ...advice, placeholder: "" };
-
-type KeyofValues = keyof FormValuesProps;
-const KEYS: [KeyofValues, FormValue][] = [
-	["president", { pdfText: "Presidente", placeholder: "Nome", ...name }],
-	["initialComments", { pdfText: "Comentários Iniciais", ...values }],
-	[
-		"treasures",
-		{
-			primary: {
-				pdfText: "Tesouros da Palavra de Deus",
-				placeholder: "Orador",
-				...values,
-			},
-			secondary: {
-				pdfText: "Encontre Joias Espirituais",
-				placeholder: "Dirigente",
-				...values,
+export const meetingSchedule = {
+	meeting: {
+		start: {
+			pdfText: "Horário que a reunião começou",
+			placeholder: "Horário que a reunião começou",
+			time: "",
+		},
+		end: {
+			pdfText: "Horário que a reunião acabou",
+			placeholder: "Horário que a reunião acabou",
+			time: "",
+		},
+	},
+	president: { pdfText: "Presidente", name: "", placeholder: "Presidente" },
+	comments: {
+		initial: {
+			pdfText: "Comentários Iniciais",
+			placeholder: "Comentários Iniciais",
+			time: "",
+		},
+		end: {
+			pdfText: "Comentários Finais",
+			placeholder: "Comentários Finais",
+			time: "",
+		},
+	},
+	treasures: {
+		treasure: {
+			pdfText: "Tesouros da Palavra de Deus",
+			placeholder: "Orador",
+			name: "",
+			time: "",
+		},
+		findTreasures: {
+			pdfText: "Encontre Joias Espirituais",
+			placeholder: "Dirigente",
+			name: "",
+			time: "",
+		},
+	},
+	ministryFields: {
+		title: "Faça seu melhor no ministério",
+		bibleRead: {
+			pdfText: "Nome do leitor da bíblia",
+			placeholder: "Leitor da bíblia",
+			name: "",
+			time: "",
+			advice: {
+				time: "",
+				placeholder: "Conselho",
 			},
 		},
-	],
-	[
-		"ministryField",
-		{
-			pdfText: "Faça seu melhor no ministério",
-			fields: [{ ...ministryField }],
+		templates: {
+			video: {
+				pdfText: "Vídeo da primeira conversa",
+				time: "",
+			},
+			firstMeeting: {
+				pdfText: "Primeira conversa",
+				placeholder: "Nome do estudante",
+				name: "",
+				time: "",
+				advice: "",
+			},
+			secondMeeting: {
+				pdfText: "Revisita",
+				placeholder: "Nome do estudante",
+				name: "",
+				time: "",
+				advice: "",
+			},
+			bibleStudy: {
+				pdfText: "Estudo bíblico",
+				placeholder: "Nome do estudante",
+				name: "",
+				time: "",
+				advice: "",
+			},
 		},
-	],
-	["bibleStudy", { pdfText: "Estudo Bíblico", ...values }],
-	["finalComments", { pdfText: "Comentários Finais", ...values }],
-];
+		fields: [],
+	},
+	christianLife: {
+		title: "Nossa Vida Cristã",
+		addButton: {
+			placeholder: "Adicionar",
+			style: { flex: 1 },
+		},
+		removeButton: {
+			placeholder: "Adicionar",
+			style: { flex: 1 },
+		},
+		placeholder: "Nome do participante",
+		pdfText: "Nossa Vida Cristã",
+		fields: [],
+	},
+	bibleStudy: { pdfText: "Estudo Bíblico", placeholder: "Dirigente" },
+};
 
-export function CreateMeetings() {
-	const map = new Map(KEYS);
-
-	return {
-		getKey: (key: KeyofValues) => map.get(key),
-		setValue: (key: KeyofValues, value: FormValue) => map.set(key, value),
-		hasKey: (key: KeyofValues) => map.has(key),
-	};
-}
+const standby = {
+	ministryField: {
+		pdfText: "Faça seu melhor no ministério",
+		fields: [],
+	},
+	christianLife: {
+		pdfText: "Nossa Vida Cristã",
+		fields: [],
+	},
+};

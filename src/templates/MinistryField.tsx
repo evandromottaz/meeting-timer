@@ -1,55 +1,72 @@
 import { isFirstIndex } from "../utils/validations";
-import { ministryField } from "../constants/schedule";
+import { meetingSchedule } from "../constants/schedule";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { FormValues } from "../types/meetingSchedule";
+import { FormValuesProps } from "../types/meetingSchedule";
 import Button from "../components/button/Button";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { InputTimer } from "../components/input/Input";
 import Fieldset from "../components/fieldset/Fieldset";
 import Timer from "../components/timer/Timer";
 import HeadingTimer from "../components/heading/Heading";
+import { QUERY } from "../constants/query";
+import ModalTemplate from "../components/modal-template/ModalTemplate";
 
 const MinistryField = () => {
-	const { control, watch } = useFormContext<FormValues>();
+	const { control } = useFormContext<FormValuesProps>();
 	const { fields, insert, remove } = useFieldArray({
 		control,
 		name: `ministryField` as const,
 	});
+	const [template, setTemplate] = useState(null);
+
+	function chooseTemplate({ target }) {
+		console.dir(target);
+		// insert(1, meetingSchedule.ministryFields.fields, {
+		// 	shouldFocus: false,
+		// });
+	}
 
 	return (
-		<Fieldset title="Faça seu melhor no ministério">
-			{fields.map(({ id }, i) => {
-				const adviceWatched = watch(`ministryField.${i}.advice`);
+		<Fieldset title={meetingSchedule.ministryFields.title}>
+			<section className="row">
+				<InputTimer
+					name={QUERY.MINISTRY_FIELD.BIBLE_READ.NAME}
+					placeholder={
+						meetingSchedule.ministryFields.bibleRead.placeholder
+					}
+					timerName={QUERY.MINISTRY_FIELD.BIBLE_READ.TIME}
+				/>
+				<Timer name={QUERY.MINISTRY_FIELD.BIBLE_READ.TIME} />
+			</section>
 
+			<HeadingTimer
+				type="advice"
+				name={QUERY.MINISTRY_FIELD.BIBLE_READ.ADVICE}
+			>
+				{meetingSchedule.ministryFields.bibleRead.advice.placeholder}
+			</HeadingTimer>
+
+			<ModalTemplate onChange={chooseTemplate} />
+
+			{fields.map(({ id }, i) => {
 				return (
 					<Fragment key={id}>
 						<section
 							className={`row ${
 								!isFirstIndex(i) ? "row--border" : ""
 							}`}
-						>
-							<InputTimer
-								name={`ministryField.${i}.name`}
-								timeName={watch(`ministryField.${i}.time`)}
-								placeholder="Nome"
-							/>
-							<Timer name={`ministryField.${i}.time`} />
-						</section>
-
-						<HeadingTimer
-							type="advice"
-							timeName={adviceWatched}
-							name={`ministryField.${i}.advice`}
-						>
-							Conselho
-						</HeadingTimer>
+						></section>
 
 						<section className="row">
 							<Button
 								onClick={() =>
-									insert(i + 1, ministryField, {
-										shouldFocus: false,
-									})
+									insert(
+										i + 1,
+										meetingSchedule.ministryFields.fields,
+										{
+											shouldFocus: false,
+										}
+									)
 								}
 							>
 								Adicionar
