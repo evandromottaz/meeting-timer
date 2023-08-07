@@ -1,9 +1,9 @@
-import Form from "./components/form/Form";
+import { Home } from "./pages/Home";
 
 const App = () => {
 	return (
 		<div className="container">
-			<Form />
+			<Home />
 		</div>
 	);
 };
