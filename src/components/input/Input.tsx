@@ -3,25 +3,14 @@ import { TimerLabel } from "../timer/Timer";
 import "./input.css";
 import { useFormContext } from "react-hook-form";
 
-type Placeholder = { placeholder: string };
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-interface IInput {
-	name: string;
-	placeholder: string;
-}
-
-interface IInputTimer {
-	name: string;
-	timeName: string;
-	placeholder: string;
-}
-
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-	name: string;
+interface InputTimerProps extends InputProps {
+	timerName: string;
 }
 
 export const InputElement = ({
-	name,
+	name = "",
 	required = true,
 	...props
 }: InputProps) => {
@@ -37,29 +26,27 @@ export const InputElement = ({
 	);
 };
 
-const InputPlaceholder = ({ placeholder }: Placeholder) => {
+const InputPlaceholder = ({ placeholder = "" }) => {
 	return <span className="input__placeholder">{placeholder}</span>;
 };
 
-const Input = ({ placeholder, name, ...props }: IInput) => {
+const Input = ({ placeholder, ...props }: InputProps) => {
 	return (
 		<article className="input">
-			<InputElement name={name} {...props} />
+			<InputElement {...props} />
 			<InputPlaceholder placeholder={placeholder} />
 		</article>
 	);
 };
 
-export const InputTimer = ({
-	placeholder,
-	name,
-	timeName,
-	...props
-}: IInputTimer) => {
+export const InputTimer = ({ timerName, ...props }: InputTimerProps) => {
+	const { watch } = useFormContext();
+	const watchTime = watch(timerName);
+
 	return (
 		<section className="input-row">
-			<Input placeholder={placeholder} name={name} {...props} />
-			<TimerLabel label={timeName} />
+			<Input {...props} />
+			<TimerLabel label={watchTime} />
 		</section>
 	);
 };
