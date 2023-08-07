@@ -1,8 +1,7 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import "./heading.css";
 import Timer, { TimerLabel } from "../timer/Timer";
-import { WatchObserver, useFormContext } from "react-hook-form";
-import { FormValues } from "../../types/meetingSchedule";
+import { useFormContext } from "react-hook-form";
 import { ChatCircle } from "@phosphor-icons/react";
 
 type HeadingProps = {
@@ -12,7 +11,6 @@ type HeadingProps = {
 
 type Props = {
 	name: string;
-	timeName: string;
 } & HeadingProps;
 
 const Heading = ({ children, type }: HeadingProps) => {
@@ -23,9 +21,10 @@ const Heading = ({ children, type }: HeadingProps) => {
 	);
 };
 
-const HeadingTimer = ({ children, name, timeName, type }: Props) => {
+const HeadingTimer = ({ children, name, type }: Props) => {
+	const { watch } = useFormContext();
+	const watchTime = watch(name);
 	const [isStart, setIsStart] = useState(false);
-	useEffect(() => {}, []);
 
 	return (
 		<section className="row">
@@ -51,7 +50,7 @@ const HeadingTimer = ({ children, name, timeName, type }: Props) => {
 				) : (
 					<Heading>{children}</Heading>
 				)}
-				<TimerLabel label={timeName} />
+				<TimerLabel label={watchTime} />
 			</div>
 			<Timer name={name} setIsStart={setIsStart} />
 		</section>
