@@ -1,21 +1,22 @@
 import { XCircle } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
-import Button from "../button/Button";
-import { ChangeEventHandler } from "react";
+import { useRef } from "react";
 import { meetingSchedule } from "../../constants/schedule";
 import "./modal-template.css";
 
 interface ModalTemplateProps {
-	onChange: ChangeEventHandler<HTMLSelectElement>;
+	chooseTemplate: (selectIndex: number) => void;
 }
 
-const ModalTemplate = ({ onChange }: ModalTemplateProps) => {
+const ModalTemplate = ({ chooseTemplate }: ModalTemplateProps) => {
 	const { bibleStudy, firstMeeting, secondMeeting, video } =
-		meetingSchedule.ministryFields.templates;
+		meetingSchedule.ministryField.templates;
+	const selectRef = useRef<HTMLSelectElement>(null)
+
 	return (
 		<Dialog.Root>
-			<Dialog.Trigger asChild>
-				<Button>Escolher qual tipo de parte</Button>
+			<Dialog.Trigger className="btn btn-success button" style={{ fontWeight: "bold" }}>
+				Adicionar parte
 			</Dialog.Trigger>
 
 			<Dialog.Portal>
@@ -29,21 +30,23 @@ const ModalTemplate = ({ onChange }: ModalTemplateProps) => {
 						Escolha qual parte adicionar
 					</Dialog.Title>
 
-					<select onChange={onChange}>
-						<option label={video.pdfText}></option>
+					<select ref={selectRef} className="form-select ">
+						<option defaultValue={0}>{video.pdfText}</option>
 
-						<option label={firstMeeting.pdfText}></option>
+						<option>{firstMeeting.pdfText}</option>
 
-						<option label={secondMeeting.pdfText}></option>
+						<option>{secondMeeting.pdfText}</option>
 
-						<option label={bibleStudy.pdfText}></option>
+						<option>{bibleStudy.pdfText}</option>
 					</select>
 
-					<Dialog.Close asChild>
-						<Button>Adicionar</Button>
+					<Dialog.Close className="btn btn-success my-3  button" onClick={() => {
+						selectRef.current && chooseTemplate(selectRef.current.selectedIndex)
+					}}>
+						Adicionar
 					</Dialog.Close>
 
-					<Dialog.Close asChild>
+					<Dialog.Close className="btn position-absolute right-0 top-0 p-0">
 						<XCircle size={32} color="#ffffff" />
 					</Dialog.Close>
 				</Dialog.Content>
