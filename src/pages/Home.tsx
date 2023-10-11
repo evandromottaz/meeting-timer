@@ -5,7 +5,6 @@ import HeadingTimer from "../components/heading/Heading";
 import Treasures from "../templates/Treasures";
 import Button from "../components/button/Button";
 import { FileText } from "@phosphor-icons/react";
-import { meetingSchedule } from "../constants/schedule";
 import { QUERY } from "../constants/query";
 import MinistryField from "../templates/MinistryField";
 import ChristianLife from "../templates/ChristianLife";
@@ -16,14 +15,14 @@ export const Home = () => {
 			<Fieldset>
 				<Input
 					name={QUERY.PRESIDENT}
-					placeholder={meetingSchedule.president.placeholder}
+					placeholder="Presidente"
 				/>
 				<Input
 					name={QUERY.MEETING.START}
-					placeholder={meetingSchedule.meeting.start.placeholder}
+					placeholder="Horário que a reunião começou"
 				/>
 				<HeadingTimer name={QUERY.COMMENTS.INITIAL}>
-					{meetingSchedule.comments.initial.placeholder}
+					Comentários Iniciais
 				</HeadingTimer>
 			</Fieldset>
 
@@ -34,15 +33,15 @@ export const Home = () => {
 			<ChristianLife />
 
 			<HeadingTimer name={QUERY.COMMENTS.END}>
-				{meetingSchedule.comments.end.placeholder}
+				Comentários Finais
 			</HeadingTimer>
 
-			<Input
+			<Input className="mt-3"
 				name={QUERY.MEETING.END}
-				placeholder={meetingSchedule.meeting.end.placeholder}
+				placeholder="Horário que a reunião acabou"
 			/>
 
-			<Button type="submit">
+			<Button type="submit" className="text-light">
 				<span>Gerar PDF</span>
 				<FileText size={40} />
 			</Button>

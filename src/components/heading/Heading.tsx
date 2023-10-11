@@ -15,7 +15,7 @@ type Props = {
 
 const Heading = ({ children, type }: HeadingProps) => {
 	return (
-		<h2 className={`heading${type ? ` heading--${type}` : ""}`}>
+		<h2 className={`ps-3 m-0 heading${type ? ` heading--${type}` : ""}`}>
 			{children}
 		</h2>
 	);
@@ -27,8 +27,8 @@ const HeadingTimer = ({ children, name, type }: Props) => {
 	const [isStart, setIsStart] = useState(false);
 
 	return (
-		<section className="row">
-			<div className="heading-row">
+		<section className="d-flex align-items-center">
+			<div className="d-flex position-relative align-items-center w-100">
 				{type ? (
 					<div
 						className={`heading__chat ${
@@ -50,7 +50,7 @@ const HeadingTimer = ({ children, name, type }: Props) => {
 				) : (
 					<Heading>{children}</Heading>
 				)}
-				<TimerLabel label={watchTime} />
+				<TimerLabel label={watchTime} style={{paddingRight:'1rem'}}/>
 			</div>
 			<Timer name={name} setIsStart={setIsStart} />
 		</section>

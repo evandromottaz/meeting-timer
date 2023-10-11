@@ -19,7 +19,7 @@ export const InputElement = ({
 	return (
 		<input
 			required={required}
-			className="input__element"
+			className="input__element bg-transparent border-0 ps-3 text-light mt-3"
 			{...register(name)}
 			{...props}
 		/>
@@ -27,12 +27,12 @@ export const InputElement = ({
 };
 
 const InputPlaceholder = ({ placeholder = "" }) => {
-	return <span className="input__placeholder">{placeholder}</span>;
+	return <span className="input__placeholder position-absolute ms-3 z-1 text-light">{placeholder}</span>;
 };
 
-const Input = ({ placeholder, ...props }: InputProps) => {
+const Input = ({ placeholder, className, ...props }: InputProps) => {
 	return (
-		<article className="input">
+		<article className={`input d-grid align-items-center overflow-hidden position-relative w-100 ${className}`}>
 			<InputElement {...props} />
 			<InputPlaceholder placeholder={placeholder} />
 		</article>
@@ -44,7 +44,7 @@ export const InputTimer = ({ timerName, ...props }: InputTimerProps) => {
 	const watchTime = watch(timerName);
 
 	return (
-		<section className="input-row">
+		<section className="d-flex align-items-center position-relative w-100">
 			<Input {...props} />
 			<TimerLabel label={watchTime} />
 		</section>
