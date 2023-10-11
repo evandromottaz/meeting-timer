@@ -56,8 +56,8 @@ export const TimerLabel = ({
 	style?: object;
 }) => {
 	return (
-		<label className="timer__label" style={{ ...style }} {...props}>
-			{typeof label === "string" ? label : "00:00"}
+		<label className="timer__label text-light position-absolute " style={{ ...style }} {...props}>
+			{label}
 		</label>
 	);
 };
