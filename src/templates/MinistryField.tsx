@@ -1,86 +1,66 @@
-import { isFirstIndex } from "../utils/validations";
 import { meetingSchedule } from "../constants/schedule";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { FormValuesProps } from "../types/meetingSchedule";
 import Button from "../components/button/Button";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { InputTimer } from "../components/input/Input";
 import Fieldset from "../components/fieldset/Fieldset";
 import Timer from "../components/timer/Timer";
 import HeadingTimer from "../components/heading/Heading";
-import { QUERY } from "../constants/query";
 import ModalTemplate from "../components/modal-template/ModalTemplate";
+
+const templates = Object.values(meetingSchedule.ministryField.templates)
 
 const MinistryField = () => {
 	const { control } = useFormContext<FormValuesProps>();
-	const { fields, insert, remove } = useFieldArray({
+	const { fields, append,  remove } = useFieldArray({
 		control,
-		name: `ministryField` as const,
+		name: "ministryField.fields",
 	});
-	const [template, setTemplate] = useState(null);
 
-	function chooseTemplate({ target }) {
-		console.dir(target);
-		// insert(1, meetingSchedule.ministryFields.fields, {
-		// 	shouldFocus: false,
-		// });
+	function chooseTemplate(selectIndex: number ) {
+		append(templates[selectIndex]);
 	}
 
 	return (
-		<Fieldset title={meetingSchedule.ministryFields.title}>
-			<section className="row">
-				<InputTimer
-					name={QUERY.MINISTRY_FIELD.BIBLE_READ.NAME}
-					placeholder={
-						meetingSchedule.ministryFields.bibleRead.placeholder
-					}
-					timerName={QUERY.MINISTRY_FIELD.BIBLE_READ.TIME}
-				/>
-				<Timer name={QUERY.MINISTRY_FIELD.BIBLE_READ.TIME} />
-			</section>
+		<Fieldset title="Faça seu melhor no ministério">
+			{fields.map((item, i) => {
+				const { id, placeholder, pdfText,advice } = item;
 
-			<HeadingTimer
-				type="advice"
-				name={QUERY.MINISTRY_FIELD.BIBLE_READ.ADVICE}
-			>
-				{meetingSchedule.ministryFields.bibleRead.advice.placeholder}
-			</HeadingTimer>
-
-			<ModalTemplate onChange={chooseTemplate} />
-
-			{fields.map(({ id }, i) => {
 				return (
 					<Fragment key={id}>
-						<section
-							className={`row ${
-								!isFirstIndex(i) ? "row--border" : ""
-							}`}
-						></section>
+						<h3 className="heading border-top pt-3">{pdfText}</h3>
 
-						<section className="row">
-							<Button
-								onClick={() =>
-									insert(
-										i + 1,
-										meetingSchedule.ministryFields.fields,
-										{
-											shouldFocus: false,
-										}
-									)
-								}
-							>
-								Adicionar
-							</Button>
-
-							{!isFirstIndex(i) && (
-								<Button type="button" onClick={() => remove(i)}>
-									Remover
-								</Button>
-							)}
+						<section className="d-flex align-items-center">
+							<InputTimer
+								name={`ministryField.fields[${i}].name`}
+								placeholder={placeholder}
+								disabled={advice === undefined}
+								timerName={`ministryField.fields[${i}].time`}
+							/>
+							<Timer name={`ministryField.fields[${i}].time`} />
 						</section>
+
+						{advice !== undefined && 
+							<HeadingTimer
+								type="advice"
+								name={`ministryField.fields[${i}].advice`}
+							>
+								Conselho
+							</HeadingTimer>}
+
+						{i > 0 && <Button 
+							type="button" 
+							onClick={() => remove(i)}
+							className="btn btn-danger"
+						>
+							Remover
+						</Button>}
 					</Fragment>
 				);
 			})}
+
+			<ModalTemplate chooseTemplate={chooseTemplate} />
 		</Fieldset>
 	);
 };
