@@ -13,7 +13,7 @@ export const Form = ({ children }: { children: ReactNode }) => {
 		<FormProvider {...methods}>
 			<form
 				ref={screenRef}
-				onSubmit={handleSubmit((data) => console.log(data))}
+				onSubmit={handleSubmit(renderPDF)}
 			>
 				{children}
 			</form>
