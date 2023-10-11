@@ -14,32 +14,6 @@
 	padding: 0;
 }
 
-html {
-	color-scheme: dark;
-}
-
 body {
-	margin: 0;
-}
-
-.container {
-	margin: 2rem auto;
-	padding-inline: 1rem;
-	width: min(100%, 62.5rem);
-}
-
-.row:first-of-type {
-	margin-top: var(--gap);
-}
-
-.row {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--gap);
-}
-
-.row--border {
-	border-top: 2px solid var(--border);
-	padding-top: var(--gap);
+	background-color: var(--bs-gray-900);
 }
