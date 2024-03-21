@@ -30,11 +30,7 @@ const HeadingTimer = ({ children, name, type }: Props) => {
 		<section className="d-flex align-items-center">
 			<div className="d-flex position-relative align-items-center w-100">
 				{type ? (
-					<div
-						className={`heading__chat ${
-							isStart ? "" : "heading__chat--paused"
-						}`}
-					>
+					<div className={`heading__chat ${isStart ? "" : "heading__chat--paused"}`}>
 						<Heading type={type}>{children}</Heading>
 						<ChatCircle
 							size={32}
@@ -50,9 +46,9 @@ const HeadingTimer = ({ children, name, type }: Props) => {
 				) : (
 					<Heading>{children}</Heading>
 				)}
-				<TimerLabel label={watchTime} style={{paddingRight:'1rem'}}/>
+				<TimerLabel label={watchTime} style={{ paddingRight: "1rem" }} />
 			</div>
-			<Timer name={name} setIsStart={setIsStart} />
+			<Timer name={name} setIsStart={setIsStart} defaultTime={watchTime} />
 		</section>
 	);
 };

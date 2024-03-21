@@ -9,23 +9,23 @@ import Timer from "../components/timer/Timer";
 import HeadingTimer from "../components/heading/Heading";
 import ModalTemplate from "../components/modal-template/ModalTemplate";
 
-const templates = Object.values(meetingSchedule.ministryField.templates)
+const templates = Object.values(meetingSchedule.ministryField.templates);
 
 const MinistryField = () => {
 	const { control } = useFormContext<FormValuesProps>();
-	const { fields, append,  remove } = useFieldArray({
+	const { fields, append, remove } = useFieldArray({
 		control,
 		name: "ministryField.fields",
 	});
 
-	function chooseTemplate(selectIndex: number ) {
+	function chooseTemplate(selectIndex: number) {
 		append(templates[selectIndex]);
 	}
 
 	return (
 		<Fieldset title="Faça seu melhor no ministério">
 			{fields.map((item, i) => {
-				const { id, placeholder, pdfText,advice } = item;
+				const { id, placeholder, pdfText, advice, time } = item;
 
 				return (
 					<Fragment key={id}>
@@ -38,24 +38,24 @@ const MinistryField = () => {
 								disabled={advice === undefined}
 								timerName={`ministryField.fields[${i}].time`}
 							/>
-							<Timer name={`ministryField.fields[${i}].time`} />
+							<Timer name={`ministryField.fields[${i}].time`} defaultTime={time} />
 						</section>
 
-						{advice !== undefined && 
-							<HeadingTimer
-								type="advice"
-								name={`ministryField.fields[${i}].advice`}
-							>
+						{advice !== undefined && (
+							<HeadingTimer type="advice" name={`ministryField.fields[${i}].advice`}>
 								Conselho
-							</HeadingTimer>}
+							</HeadingTimer>
+						)}
 
-						{i > 0 && <Button 
-							type="button" 
-							onClick={() => remove(i)}
-							className="btn btn-danger"
-						>
-							Remover
-						</Button>}
+						{i > 0 && (
+							<Button
+								type="button"
+								onClick={() => remove(i)}
+								className="btn btn-danger"
+							>
+								Remover
+							</Button>
+						)}
 					</Fragment>
 				);
 			})}
