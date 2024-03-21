@@ -9,10 +9,17 @@ interface TimerProps {
 	style?: object;
 	name: string;
 	setIsStart?: React.Dispatch<React.SetStateAction<boolean>>;
+	defaultTime?: string;
 }
 
-const Timer = ({ style, name, setIsStart, ...inputProps }: TimerProps) => {
-	const { label, start, setStart } = useTimer();
+const Timer = ({
+	style,
+	name,
+	setIsStart,
+	defaultTime,
+	...inputProps
+}: TimerProps) => {
+	const { label, start, setStart } = useTimer({ defaultTime });
 	const { setValue } = useFormContext();
 
 	function handleTime() {
@@ -56,7 +63,11 @@ export const TimerLabel = ({
 	style?: object;
 }) => {
 	return (
-		<label className="timer__label text-light position-absolute " style={{ ...style }} {...props}>
+		<label
+			className="timer__label text-light position-absolute "
+			style={{ ...style }}
+			{...props}
+		>
 			{label}
 		</label>
 	);

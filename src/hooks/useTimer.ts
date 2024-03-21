@@ -1,4 +1,5 @@
 import { Context, createContext, useEffect, useState } from "react";
+import { getTimeInSeconds } from "../utils/getTimeInSeconds";
 
 const fixTimeUnits = (units: number) => (units < 10 ? `0${units}` : units);
 
@@ -10,9 +11,13 @@ function formatTime(timeInSeconds: number) {
 	return `${labelMinutes}:${fixTimeUnits(seconds)}`;
 }
 
-const useTimer = () => {
+interface useTimerProps {
+	defaultTime?: string;
+}
+
+const useTimer = ({ defaultTime = "" }: useTimerProps) => {
 	const [start, setStart] = useState(false);
-	const [seconds, setSeconds] = useState(0);
+	const [seconds, setSeconds] = useState(getTimeInSeconds(defaultTime));
 	const label = formatTime(seconds);
 
 	useEffect(() => {
