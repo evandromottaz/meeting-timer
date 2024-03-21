@@ -35,41 +35,19 @@ export const meetingSchedule: FormValuesProps = {
 		},
 	},
 	ministryField: {
-		templates: {
-			video: {
-				pdfText: "Vídeo da primeira conversa",
-				time: "",
-				name: "",
-			},
-			firstMeeting: {
-				pdfText: "Primeira conversa",
-				placeholder: "Nome do estudante",
-				name: "",
-				time: "",
-				advice: "",
-			},
-			secondMeeting: {
-				pdfText: "Revisita",
-				placeholder: "Nome do estudante",
-				name: "",
-				time: "",
-				advice: "",
-			},
-			bibleStudy: {
-				pdfText: "Estudo bíblico",
-				placeholder: "Nome do estudante",
-				name: "",
-				time: "",
-				advice: "",
-			},
+		template: {
+			pdfText: "",
+			name: "",
+			limitTime: "",
+			hasAdvice: false,
 		},
 		fields: [
 			{
 				pdfText: "Leitura da bíblia",
-				placeholder: "Nome do estudante",
 				name: "",
 				time: "",
 				advice: "",
+				placeholder: "Nome do leitor",
 			},
 		],
 	},

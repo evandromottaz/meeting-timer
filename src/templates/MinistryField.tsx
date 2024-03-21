@@ -1,4 +1,3 @@
-import { meetingSchedule } from "../constants/schedule";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { FormValuesProps } from "../types/meetingSchedule";
 import Button from "../components/button/Button";
@@ -9,23 +8,38 @@ import Timer from "../components/timer/Timer";
 import HeadingTimer from "../components/heading/Heading";
 import ModalTemplate from "../components/modal-template/ModalTemplate";
 
-const templates = Object.values(meetingSchedule.ministryField.templates);
-
 const MinistryField = () => {
-	const { control } = useFormContext<FormValuesProps>();
+	const { control, getValues, setValue } = useFormContext<FormValuesProps>();
 	const { fields, append, remove } = useFieldArray({
 		control,
 		name: "ministryField.fields",
 	});
 
-	function chooseTemplate(selectIndex: number) {
-		append(templates[selectIndex]);
+	function addSection() {
+		const { hasAdvice, limitTime, pdfText, name } = getValues(
+			"ministryField.template"
+		);
+		const advice = hasAdvice ? { advice: "" } : {};
+
+		append({
+			time: "",
+			name,
+			pdfText: `${pdfText} (${limitTime}min)`,
+			...advice,
+		});
+
+		setValue("ministryField.template", {
+			hasAdvice: true,
+			name: "",
+			limitTime: "",
+			pdfText: "",
+		});
 	}
 
 	return (
 		<Fieldset title="Faça seu melhor no ministério">
 			{fields.map((item, i) => {
-				const { id, placeholder, pdfText, advice, time } = item;
+				const { id, pdfText, advice, time, name = "", placeholder = "Nome" } = item;
 
 				return (
 					<Fragment key={id}>
@@ -33,6 +47,7 @@ const MinistryField = () => {
 
 						<section className="d-flex align-items-center">
 							<InputTimer
+								defaultValue={name}
 								name={`ministryField.fields[${i}].name`}
 								placeholder={placeholder}
 								disabled={advice === undefined}
@@ -41,7 +56,7 @@ const MinistryField = () => {
 							<Timer name={`ministryField.fields[${i}].time`} defaultTime={time} />
 						</section>
 
-						{advice !== undefined && (
+						{typeof advice === "string" && (
 							<HeadingTimer type="advice" name={`ministryField.fields[${i}].advice`}>
 								Conselho
 							</HeadingTimer>
@@ -60,7 +75,7 @@ const MinistryField = () => {
 				);
 			})}
 
-			<ModalTemplate chooseTemplate={chooseTemplate} />
+			<ModalTemplate addSection={addSection} />
 		</Fieldset>
 	);
 };
