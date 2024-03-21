@@ -16,10 +16,12 @@ export const meetingSchedule: FormValuesProps = {
 		initial: {
 			pdfText: "Comentários Iniciais",
 			time: "",
+			limitTime: "1",
 		},
 		end: {
 			pdfText: "Comentários Finais",
 			time: "",
+			limitTime: "3",
 		},
 	},
 	treasures: {
@@ -27,49 +29,30 @@ export const meetingSchedule: FormValuesProps = {
 			pdfText: "Orador",
 			name: "",
 			time: "",
+			limitTime: "10",
 		},
 		findTreasures: {
 			pdfText: "Encontre Joias Espirituais",
 			name: "",
 			time: "",
+			limitTime: "10",
 		},
 	},
 	ministryField: {
-		templates: {
-			video: {
-				pdfText: "Vídeo da primeira conversa",
-				time: "",
-				name: "",
-			},
-			firstMeeting: {
-				pdfText: "Primeira conversa",
-				placeholder: "Nome do estudante",
-				name: "",
-				time: "",
-				advice: "",
-			},
-			secondMeeting: {
-				pdfText: "Revisita",
-				placeholder: "Nome do estudante",
-				name: "",
-				time: "",
-				advice: "",
-			},
-			bibleStudy: {
-				pdfText: "Estudo bíblico",
-				placeholder: "Nome do estudante",
-				name: "",
-				time: "",
-				advice: "",
-			},
+		template: {
+			pdfText: "",
+			name: "",
+			limitTime: "",
+			hasAdvice: false,
 		},
 		fields: [
 			{
 				pdfText: "Leitura da bíblia",
-				placeholder: "Nome do estudante",
 				name: "",
 				time: "",
 				advice: "",
+				placeholder: "Nome do leitor",
+				limitTime: "4",
 			},
 		],
 	},
@@ -77,6 +60,7 @@ export const meetingSchedule: FormValuesProps = {
 		templates: {
 			time: "",
 			name: "",
+			limitTime: "",
 		},
 		fields: [],
 	},

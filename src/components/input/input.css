@@ -10,7 +10,8 @@
 }
 
 .input__element:focus ~ .input__placeholder,
-.input__element:valid ~ .input__placeholder {
+.input__element:valid ~ .input__placeholder,
+.input__element:disabled ~ .input__placeholder {
 	translate: -11px -17px;
 	font-size: 0.8rem;
 	opacity: 1;

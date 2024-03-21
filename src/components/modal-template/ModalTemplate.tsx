@@ -1,21 +1,22 @@
 import { XCircle } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useRef } from "react";
-import { meetingSchedule } from "../../constants/schedule";
 import "./modal-template.css";
+import { useFormContext } from "react-hook-form";
+import { FormValuesProps } from "../../types/meetingSchedule";
 
-interface ModalTemplateProps {
-	chooseTemplate: (selectIndex: number) => void;
+interface ModalChristianLifeProps {
+	addSection: () => void;
 }
 
-const ModalTemplate = ({ chooseTemplate }: ModalTemplateProps) => {
-	const { bibleStudy, firstMeeting, secondMeeting, video } =
-		meetingSchedule.ministryField.templates;
-	const selectRef = useRef<HTMLSelectElement>(null)
+const ModalTemplate = ({ addSection }: ModalChristianLifeProps) => {
+	const { register } = useFormContext<FormValuesProps>();
 
 	return (
 		<Dialog.Root>
-			<Dialog.Trigger className="btn btn-success button" style={{ fontWeight: "bold" }}>
+			<Dialog.Trigger
+				className="btn btn-success button"
+				style={{ fontWeight: "bold" }}
+			>
 				Adicionar parte
 			</Dialog.Trigger>
 
@@ -23,30 +24,46 @@ const ModalTemplate = ({ chooseTemplate }: ModalTemplateProps) => {
 				<Dialog.Overlay className="dialog__overlay" />
 
 				<Dialog.Content className="dialog__content">
-					<Dialog.Title
-						className="heading"
-						style={{ marginBottom: "1rem" }}
-					>
-						Escolha qual parte adicionar
-					</Dialog.Title>
+					<Dialog.Title className="heading p-0 mb-4">Configure a parte</Dialog.Title>
 
-					<select ref={selectRef} className="form-select ">
-						<option defaultValue={0}>{video.pdfText}</option>
+					<div>
+						<input
+							{...register("ministryField.template.pdfText")}
+							className="form-control text-dark border-0 ps-3 mt-3 fs-5"
+							placeholder="Nome da parte"
+						/>
 
-						<option>{firstMeeting.pdfText}</option>
+						<input
+							{...register("ministryField.template.name")}
+							className="form-control text-dark border-0 ps-3 mt-3 fs-5"
+							placeholder="Nome do estudante"
+						/>
 
-						<option>{secondMeeting.pdfText}</option>
+						<input
+							{...register("ministryField.template.limitTime")}
+							className="form-control border-0 ps-3 mt-3 text-dark fs-5 "
+							type="number"
+							placeholder="Tempo da parte"
+						/>
 
-						<option>{bibleStudy.pdfText}</option>
-					</select>
+						<label className="text-white mt-3 fs-5">
+							<input
+								{...register("ministryField.template.hasAdvice")}
+								defaultChecked={true}
+								type="checkbox"
+							/>{" "}
+							Tem conselho?
+						</label>
+					</div>
 
-					<Dialog.Close className="btn btn-success my-3  button" onClick={() => {
-						selectRef.current && chooseTemplate(selectRef.current.selectedIndex)
-					}}>
+					<Dialog.Close className="btn btn-success mt-5 button" onClick={addSection}>
 						Adicionar
 					</Dialog.Close>
 
-					<Dialog.Close className="btn position-absolute right-0 top-0 p-0">
+					<Dialog.Close
+						className="btn position-absolute p-0"
+						style={{ top: "-15px", right: "-15px" }}
+					>
 						<XCircle size={32} color="#ffffff" />
 					</Dialog.Close>
 				</Dialog.Content>
