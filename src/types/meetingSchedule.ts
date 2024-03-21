@@ -17,13 +17,13 @@ export interface MeetingProps {
 interface PresidentProps extends pdfTextType, nameType {}
 
 interface CommentsProps {
-	initial: pdfTextType & timeType;
-	end: pdfTextType & timeType;
+	initial: pdfTextType & timeType & limitTimeType;
+	end: pdfTextType & timeType & limitTimeType;
 }
 
 interface TreasuresProps {
-	treasure: commonInputType;
-	findTreasures: commonInputType;
+	treasure: commonInputType & limitTimeType;
+	findTreasures: commonInputType & limitTimeType;
 }
 
 export interface MinistryFieldProps {
@@ -33,12 +33,17 @@ export interface MinistryFieldProps {
 		limitTime: string;
 		hasAdvice: boolean;
 	};
-	fields: (nameType & timeType & pdfTextType & adviceType & placeholderType)[];
+	fields: (nameType &
+		timeType &
+		pdfTextType &
+		adviceType &
+		placeholderType &
+		limitTimeType)[];
 }
 
 interface ChristianLifeProps {
-	templates: nameType & timeType;
-	fields: (FormValueProps & limitTimeType & pdfTextType)[];
+	templates: nameType & timeType & limitTimeType;
+	fields: (FormValueProps & limitTimeType & pdfTextType & limitTimeType)[];
 }
 
 export interface FormValuesProps {

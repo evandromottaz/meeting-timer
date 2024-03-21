@@ -24,7 +24,8 @@ const MinistryField = () => {
 		append({
 			time: "",
 			name,
-			pdfText: `${pdfText} (${limitTime}min)`,
+			pdfText,
+			limitTime,
 			...advice,
 		});
 

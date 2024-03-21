@@ -1,14 +1,16 @@
-import AbstractMeeting from './AbstractMeeting';
+import AbstractMeeting from "./AbstractMeeting";
 
 export default class Treasures extends AbstractMeeting {
-    getData(): string | string[] {
-        const [pdfText, ...values] = Object.values(this.data.treasures)
-        return values.map(({ pdfText = '', name = '', time = '' }) => {
-            return `${pdfText}: ${name ? `${name} - ` : ''}Tempo: ${time}`
-        })
-    }
+	getData(): string | string[] {
+		const treasures = Object.values(this.data.treasures);
+		return treasures.map(({ pdfText = "", name = "", time = "", limitTime }) => {
+			return `${pdfText} (${limitTime}min): ${
+				name ? `${name} - ` : ""
+			}Tempo: ${time}`;
+		});
+	}
 
-    getTitle(): string {
-        return "Tesouros da Palavra de Deus"
-    }
+	getTitle(): string {
+		return "Tesouros da Palavra de Deus";
+	}
 }

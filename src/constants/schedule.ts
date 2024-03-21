@@ -16,10 +16,12 @@ export const meetingSchedule: FormValuesProps = {
 		initial: {
 			pdfText: "Comentários Iniciais",
 			time: "",
+			limitTime: "1",
 		},
 		end: {
 			pdfText: "Comentários Finais",
 			time: "",
+			limitTime: "3",
 		},
 	},
 	treasures: {
@@ -27,11 +29,13 @@ export const meetingSchedule: FormValuesProps = {
 			pdfText: "Orador",
 			name: "",
 			time: "",
+			limitTime: "10",
 		},
 		findTreasures: {
 			pdfText: "Encontre Joias Espirituais",
 			name: "",
 			time: "",
+			limitTime: "10",
 		},
 	},
 	ministryField: {
@@ -48,6 +52,7 @@ export const meetingSchedule: FormValuesProps = {
 				time: "",
 				advice: "",
 				placeholder: "Nome do leitor",
+				limitTime: "4",
 			},
 		],
 	},
@@ -55,6 +60,7 @@ export const meetingSchedule: FormValuesProps = {
 		templates: {
 			time: "",
 			name: "",
+			limitTime: "",
 		},
 		fields: [],
 	},
