@@ -1,22 +1,34 @@
 import { FormProvider, useForm } from "react-hook-form";
 import usePDF from "../../hooks/usePDF";
-import { ReactNode, useRef } from "react";
+import { ReactNode } from "react";
 import { meetingSchedule } from "../../constants/schedule";
+import {
+	loadMeetingTimer,
+	cacheMeetingTimer,
+	removeCacheMeetingTimer,
+} from "../../utils/localStorage";
+import { FormValuesProps } from "../../types/meetingSchedule";
+
+const loadData = loadMeetingTimer();
+const defaultValues = loadData ? loadData : meetingSchedule;
 
 export const Form = ({ children }: { children: ReactNode }) => {
-	const methods = useForm({ defaultValues: meetingSchedule });
+	const { watch, reset, ...methods } = useForm({ defaultValues });
 	const { handleSubmit } = methods;
-	const screenRef = useRef(null);
 	const renderPDF = usePDF();
 
+	const allFields = watch();
+	cacheMeetingTimer(allFields);
+
+	function onSubmit(data: FormValuesProps) {
+		renderPDF(data);
+		removeCacheMeetingTimer();
+		reset(meetingSchedule);
+	}
+
 	return (
-		<FormProvider {...methods}>
-			<form
-				ref={screenRef}
-				onSubmit={handleSubmit(renderPDF)}
-			>
-				{children}
-			</form>
+		<FormProvider {...{ watch, reset, ...methods }}>
+			<form onSubmit={handleSubmit(onSubmit)}>{children}</form>
 		</FormProvider>
 	);
 };
