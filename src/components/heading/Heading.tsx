@@ -11,17 +11,18 @@ type HeadingProps = {
 
 type Props = {
 	name: string;
+	recordZero?: boolean;
 } & HeadingProps;
 
 const Heading = ({ children, type }: HeadingProps) => {
 	return (
-		<h2 className={`ps-3 m-0 heading${type ? ` heading--${type}` : ""}`}>
+		<h2 className={`m-0 heading${type ? ` heading--${type}` : " ps-3"}`}>
 			{children}
 		</h2>
 	);
 };
 
-const HeadingTimer = ({ children, name, type }: Props) => {
+const HeadingTimer = ({ children, name, type, recordZero }: Props) => {
 	const { watch } = useFormContext();
 	const watchTime = watch(name);
 	const [isStart, setIsStart] = useState(false);
@@ -30,25 +31,21 @@ const HeadingTimer = ({ children, name, type }: Props) => {
 		<section className="d-flex align-items-center">
 			<div className="d-flex position-relative align-items-center w-100">
 				{type ? (
-					<div className={`heading__chat ${isStart ? "" : "heading__chat--paused"}`}>
+					<div className="heading__advice">
 						<Heading type={type}>{children}</Heading>
-						<ChatCircle
-							size={32}
-							color="#ffffff"
-							weight="fill"
-							style={{
-								position: "absolute",
-								top: "-20px",
-								right: "-40px",
-							}}
-						/>
+						<span
+							className={`heading__chat${isStart ? "" : " heading__chat--paused"}`}
+							aria-hidden="true"
+						>
+							<ChatCircle size={32} weight="fill" />
+						</span>
 					</div>
 				) : (
 					<Heading>{children}</Heading>
 				)}
-				<TimerLabel label={watchTime} style={{ paddingRight: "1rem" }} />
+				<TimerLabel label={watchTime || "00:00"} style={{ paddingRight: "1rem" }} />
 			</div>
-			<Timer name={name} setIsStart={setIsStart} defaultTime={watchTime} />
+			<Timer name={name} setIsStart={setIsStart} defaultTime={watchTime} recordZero={recordZero} />
 		</section>
 	);
 };

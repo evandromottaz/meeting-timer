@@ -1,5 +1,5 @@
 import { FormProvider, useForm } from "react-hook-form";
-import { Fragment, ReactNode, useState } from "react";
+import { FormEvent, Fragment, ReactNode, useState } from "react";
 import { meetingSchedule, weekendSchedule } from "../../constants/schedule";
 import usePDF from "../../hooks/usePDF";
 import {
@@ -9,7 +9,14 @@ import {
 import { MeetingSchedule } from "../../types/meetingSchedule";
 import downloadMeetingPNG from "../../utils/downloadMeetingPNG";
 
-export function Form({ children, updated, weekend = false }: { children: ReactNode; updated: boolean; weekend?: boolean }) {
+type FormProps = {
+	children: ReactNode;
+	updated: boolean;
+	weekend?: boolean;
+	onInvalidField?: (field: HTMLInputElement) => void;
+};
+
+export function Form({ children, updated, weekend = false, onInvalidField }: FormProps) {
 	const schedule = weekend ? weekendSchedule : meetingSchedule;
 	const [defaultValues] = useState(() => loadMeetingTimer(updated, weekend) ?? schedule);
 	const { watch, reset, ...methods } = useForm({ defaultValues });
@@ -38,12 +45,25 @@ export function Form({ children, updated, weekend = false }: { children: ReactNo
 		setMeetingNumber((number) => number + 1);
 	}
 
+	function submitForm(event: FormEvent<HTMLFormElement>) {
+		if (onInvalidField) {
+			const invalidField = event.currentTarget.querySelector<HTMLInputElement>("input:invalid");
+			if (invalidField) {
+				event.preventDefault();
+				onInvalidField(invalidField);
+				return;
+			}
+		}
+
+		return handleSubmit(onSubmit)(event);
+	}
+
 	return (
 		<FormProvider {...{ watch, reset, ...methods }}>
-			<form onSubmit={handleSubmit(onSubmit)}>
+			<form noValidate={Boolean(onInvalidField)} onSubmit={submitForm}>
 				<Fragment key={meetingNumber}>{children}</Fragment>
 				{exportError && (
-					<p role="alert" className="text-light mt-3">
+					<p role="alert" className="text-body mt-3">
 						Não foi possível gerar o {exportError}. Tente novamente.
 					</p>
 				)}

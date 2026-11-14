@@ -45,9 +45,9 @@ const ModalChristianLife = ({ chooseTemplate }: ModalChristianLifeProps) => {
 
                     {!isBibleStudy && 
 						<div>
-							<input onChange={e => setInputs(prevState => ({...prevState, pdfText:e.target.value}))} className="form-control text-dark  border-0 ps-3 mt-3 fs-5" placeholder="Nome da parte" />
+							<input onChange={e => setInputs(prevState => ({...prevState, pdfText:e.target.value}))} className="form-control ps-3 mt-3 fs-5" placeholder="Nome da parte" />
 
-							<input onChange={e => setInputs(prevState => ({...prevState, limitTime:e.target.value}))} className="form-control border-0 ps-3 mt-3 text-dark fs-5 " type="number" placeholder="Tempo da parte" />
+							<input onChange={e => setInputs(prevState => ({...prevState, limitTime:e.target.value}))} className="form-control ps-3 mt-3 fs-5" type="number" placeholder="Tempo da parte" />
 						</div>
 					}
 
@@ -58,8 +58,8 @@ const ModalChristianLife = ({ chooseTemplate }: ModalChristianLifeProps) => {
 						Adicionar
 					</Dialog.Close>
 
-					<Dialog.Close className="btn position-absolute right-0 top-0 p-0">
-						<XCircle size={32} color="#ffffff" />
+					<Dialog.Close className="dialog__close btn position-absolute end-0 top-0 p-0" aria-label="Fechar">
+						<XCircle size={32} aria-hidden="true" />
 					</Dialog.Close>
 				</Dialog.Content>
 			</Dialog.Portal>

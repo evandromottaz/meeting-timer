@@ -1,5 +1,6 @@
 import { meetingSections } from "../constants/meetingSections";
 import { MeetingSchedule } from "../types/meetingSchedule";
+import { getTimeInSeconds } from "./getTimeInSeconds";
 
 type TimedPart = {
 	pdfText?: string;
@@ -89,7 +90,7 @@ export default async function downloadMeetingPNG(data: MeetingSchedule) {
 			if (part.assistantName?.trim()) {
 				details.push(...measureLines(`Ajudante: ${part.assistantName}`, detailFont));
 			}
-			const advice = part.advice?.trim();
+			const advice = getTimeInSeconds(part.advice) > 0 ? part.advice : undefined;
 			return { ...part, label, details, advice, height: 30 + label.length * 29 + (details.length + Number(Boolean(advice))) * 26 };
 		}),
 	}));

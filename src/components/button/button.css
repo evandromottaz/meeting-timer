@@ -9,6 +9,21 @@
 	width: 100%;
 }
 
+.button.btn-section {
+	--bs-btn-color: var(--bs-white);
+	--bs-btn-bg: var(--jw-color);
+	--bs-btn-hover-color: var(--bs-white);
+	--bs-btn-hover-bg: #4c3371;
+	--bs-btn-active-color: var(--bs-white);
+	--bs-btn-active-bg: #402b60;
+	background: var(--bs-btn-bg);
+}
+
+.btn-section:focus-visible {
+	outline: 2px solid var(--theme-accent);
+	outline-offset: 2px;
+}
+
 [type="submit"] {
 	background-color: var(--jw-color);
 	margin-top: var(--gap);

@@ -19,7 +19,7 @@ export const InputElement = ({
 	return (
 		<input
 			required={required}
-			className="input__element bg-transparent border-0 ps-3 text-light mt-3"
+			className="input__element bg-transparent border-0 ps-3 text-body mt-3"
 			{...register(name)}
 			{...props}
 		/>
@@ -28,7 +28,7 @@ export const InputElement = ({
 
 const InputPlaceholder = ({ placeholder = "" }) => {
 	return (
-		<span className="input__placeholder position-absolute ms-3 z-1 text-light">
+		<span className="input__placeholder position-absolute ms-3 z-1 text-body">
 			{placeholder}
 		</span>
 	);
@@ -39,8 +39,8 @@ const Input = ({ placeholder, className, ...props }: InputProps) => {
 		<article
 			className={`input d-grid align-items-center overflow-hidden position-relative w-100 ${className}`}
 		>
-			<InputElement {...props} />
-			<InputPlaceholder placeholder={placeholder} />
+			<InputElement {...props} placeholder=" " />
+			{placeholder && <InputPlaceholder placeholder={placeholder} />}
 		</article>
 	);
 };

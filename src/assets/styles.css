@@ -2,7 +2,24 @@
 	--gap: 1rem;
 	--ms: 300ms;
 	--jw-color: #5b3d87;
-	--border: rgb(118, 118, 118);
+	--input-surface: #3b3b3b;
+	--input-border: #767676;
+	--menu-surface: var(--bs-gray-800);
+	--dialog-surface: #181a1c;
+	--theme-accent: #c8bcf6;
+	--theme-tab-active: #e2d7ff;
+	--timer-icon: #9b7bd3;
+}
+
+:root[data-bs-theme="light"] {
+	--bs-body-bg: #f6f4f9;
+	--input-surface: #fff;
+	--input-border: #9d92ae;
+	--menu-surface: #fff;
+	--dialog-surface: #fff;
+	--theme-accent: #5b3d87;
+	--theme-tab-active: #5b3d87;
+	--timer-icon: #5b3d87;
 }
 
 * {
@@ -14,26 +31,40 @@
 	padding: 0;
 }
 
-body {
-	background-color: var(--bs-gray-900);
-}
-
 .version-switch {
 	cursor: pointer;
-	color: var(--bs-light);
+}
+
+.version-menu-button {
+	--bs-btn-color: var(--bs-body-color);
+	display: grid;
+	place-items: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	padding: 0;
+}
+
+.version-menu {
+	position: absolute;
+	inset: calc(100% + 0.5rem) 0 auto auto;
+	z-index: 8;
+	width: max-content;
+	border: 1px solid var(--bs-border-color);
+	background: var(--menu-surface);
 }
 
 .version-switch .form-check-input {
-	background-color: var(--bs-gray-800);
-	border-color: #c8bcf6;
+	background-color: var(--menu-surface);
+	border-color: var(--theme-accent);
 	cursor: inherit;
-	background-image: radial-gradient(circle, #c8bcf6 40%, transparent 43%);
+	background-image: radial-gradient(circle, var(--theme-accent) 40%, transparent 43%);
 	background-size: 1em 1em;
 }
 
 .version-switch .form-check-input:checked {
 	background-color: var(--jw-color);
-	border-color: #c8bcf6;
+	border-color: var(--jw-color);
+	background-image: radial-gradient(circle, #fff 40%, transparent 43%);
 }
 
 .version-switch .form-check-input:focus {
@@ -41,15 +72,39 @@ body {
 }
 
 .version-switch .form-check-input:focus-visible {
-	outline: 2px solid #c8bcf6;
+	outline: 2px solid var(--theme-accent);
 	outline-offset: 3px;
 }
 
+.theme-picker {
+	min-width: 0;
+}
+
+.theme-picker legend svg {
+	color: var(--theme-accent);
+}
+
+.theme-option {
+	--bs-btn-color: var(--bs-body-color);
+	--bs-btn-border-color: var(--bs-border-color);
+	--bs-btn-hover-color: var(--theme-accent);
+	--bs-btn-hover-border-color: var(--theme-accent);
+	--bs-btn-active-color: #fff;
+	--bs-btn-active-bg: var(--jw-color);
+	--bs-btn-active-border-color: var(--jw-color);
+	min-height: 2.75rem;
+}
+
+.btn-check:focus-visible + .theme-option {
+	outline: 2px solid var(--theme-accent);
+	outline-offset: 2px;
+}
+
 .meeting-tabs {
-	--bs-nav-link-color: var(--bs-light);
-	--bs-nav-link-hover-color: var(--bs-white);
-	--bs-nav-tabs-border-color: var(--bs-gray-600);
-	--bs-nav-tabs-link-hover-border-color: var(--bs-gray-600);
+	--bs-nav-link-color: var(--bs-body-color);
+	--bs-nav-link-hover-color: var(--theme-accent);
+	--bs-nav-tabs-border-color: var(--bs-border-color);
+	--bs-nav-tabs-link-hover-border-color: var(--bs-border-color);
 	--bs-nav-tabs-link-active-color: var(--bs-white);
 	--bs-nav-tabs-link-active-bg: var(--jw-color);
 	--bs-nav-tabs-link-active-border-color: var(--jw-color);

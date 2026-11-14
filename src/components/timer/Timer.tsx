@@ -10,6 +10,7 @@ interface TimerProps {
 	name: string;
 	setIsStart?: React.Dispatch<React.SetStateAction<boolean>>;
 	defaultTime?: string;
+	recordZero?: boolean;
 }
 
 const Timer = ({
@@ -17,10 +18,12 @@ const Timer = ({
 	name,
 	setIsStart,
 	defaultTime,
+	recordZero = true,
 	...inputProps
 }: TimerProps) => {
 	const { label, start, setStart } = useTimer({ defaultTime });
 	const { setValue } = useFormContext();
+	const shouldRecord = recordZero || label !== "00:00";
 
 	function handleTime() {
 		setStart(!start);
@@ -28,21 +31,23 @@ const Timer = ({
 	}
 
 	useEffect(() => {
-		setValue(name, label);
-	}, [label]);
+		if (shouldRecord) setValue(name, label);
+	}, [label, shouldRecord]);
 
 	return (
 		<article className="timer" style={{ ...style }}>
-			<InputElement
-				name={name}
-				{...inputProps}
-				value={label}
-				required={false}
-				hidden
-			/>
+			{shouldRecord && (
+				<InputElement
+					name={name}
+					{...inputProps}
+					value={label}
+					required={false}
+					hidden
+				/>
+			)}
 			<IconContext.Provider
 				value={{
-					color: "var(--jw-color)",
+					color: "var(--timer-icon)",
 					size: 50,
 					weight: "duotone",
 					onClick: handleTime,
@@ -64,7 +69,7 @@ export const TimerLabel = ({
 }) => {
 	return (
 		<label
-			className="timer__label text-light position-absolute "
+			className="timer__label text-body position-absolute "
 			style={{ ...style }}
 			{...props}
 		>

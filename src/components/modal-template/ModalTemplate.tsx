@@ -4,12 +4,11 @@ import "./modal-template.css";
 import { useFormContext } from "react-hook-form";
 import { FormValuesProps } from "../../types/meetingSchedule";
 
-interface ModalChristianLifeProps {
+interface ModalTemplateProps {
 	addSection: () => void;
-	updated: boolean;
 }
 
-const ModalTemplate = ({ addSection, updated }: ModalChristianLifeProps) => {
+const ModalTemplate = ({ addSection }: ModalTemplateProps) => {
 	const { register } = useFormContext<FormValuesProps>();
 
 	return (
@@ -30,32 +29,24 @@ const ModalTemplate = ({ addSection, updated }: ModalChristianLifeProps) => {
 					<div>
 						<input
 							{...register("ministryField.template.pdfText")}
-							className="form-control text-dark border-0 ps-3 mt-3 fs-5"
+							className="form-control ps-3 mt-3 fs-5"
 							placeholder="Nome da parte"
 						/>
 
 						<input
 							{...register("ministryField.template.name")}
-							className="form-control text-dark border-0 ps-3 mt-3 fs-5"
+							className="form-control ps-3 mt-3 fs-5"
 							placeholder="Nome do estudante"
 						/>
 
-						{updated && (
-							<input
-								{...register("ministryField.template.assistantName")}
-								className="form-control text-dark border-0 ps-3 mt-3 fs-5"
-								placeholder="Nome do ajudante"
-							/>
-						)}
-
 						<input
 							{...register("ministryField.template.limitTime")}
-							className="form-control border-0 ps-3 mt-3 text-dark fs-5 "
+							className="form-control ps-3 mt-3 fs-5"
 							type="number"
 							placeholder="Tempo da parte"
 						/>
 
-						<label className="text-white mt-3 fs-5">
+						<label className="mt-3 fs-5">
 							<input
 								{...register("ministryField.template.hasAdvice")}
 								defaultChecked={true}
@@ -70,10 +61,11 @@ const ModalTemplate = ({ addSection, updated }: ModalChristianLifeProps) => {
 					</Dialog.Close>
 
 					<Dialog.Close
-						className="btn position-absolute p-0"
+						className="dialog__close btn position-absolute p-0"
+						aria-label="Fechar"
 						style={{ top: "-15px", right: "-15px" }}
 					>
-						<XCircle size={32} color="#ffffff" />
+						<XCircle size={32} aria-hidden="true" />
 					</Dialog.Close>
 				</Dialog.Content>
 			</Dialog.Portal>
