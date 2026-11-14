@@ -1,4 +1,4 @@
-import { FormValuesProps } from "../types/meetingSchedule";
+import { FormValuesProps, WeekendSchedule } from "../types/meetingSchedule";
 
 export const meetingSchedule: FormValuesProps = {
 	meeting: {
@@ -64,4 +64,13 @@ export const meetingSchedule: FormValuesProps = {
 		},
 		fields: [],
 	},
+};
+
+export const weekendSchedule: WeekendSchedule = {
+	meeting: {
+		start: meetingSchedule.meeting.start,
+		end: { pdfText: "Horário que a reunião terminou", time: "" },
+	},
+	speech: { pdfText: "Discurso", time: "" },
+	watchtower: { pdfText: "Sentinela", time: "" },
 };

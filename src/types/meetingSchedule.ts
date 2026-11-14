@@ -30,10 +30,12 @@ export interface MinistryFieldProps {
 	template: {
 		pdfText: string;
 		name: string;
+		assistantName?: string;
 		limitTime: string;
 		hasAdvice: boolean;
 	};
 	fields: (nameType &
+		{ assistantName?: string } &
 		timeType &
 		pdfTextType &
 		adviceType &
@@ -54,3 +56,11 @@ export interface FormValuesProps {
 	ministryField: MinistryFieldProps;
 	christianLife: ChristianLifeProps;
 }
+
+export interface WeekendSchedule {
+	meeting: MeetingProps;
+	speech: pdfTextType & timeType;
+	watchtower: pdfTextType & timeType;
+}
+
+export type MeetingSchedule = FormValuesProps | WeekendSchedule;

@@ -10,8 +10,9 @@ import { InputTimer } from "../components/input/Input";
 import Fieldset from "../components/fieldset/Fieldset";
 import Timer from "../components/timer/Timer";
 import ModalChristianLife from "../components/modal-template/ModalChristianLife";
+import { meetingSections } from "../constants/meetingSections";
 
-const ChristianLife = () => {
+const ChristianLife = ({ updated }: { updated: boolean }) => {
 	const { control } = useFormContext<FormValuesProps>();
 	const { fields, append, remove } = useFieldArray({
 		control,
@@ -30,7 +31,7 @@ const ChristianLife = () => {
 	}
 
 	return (
-		<Fieldset title="Nossa Vida Cristã">
+		<Fieldset title={updated ? meetingSections.christianLife : "Nossa Vida Cristã"}>
 			{fields.map((item, i) => {
 				const { id, placeholder, pdfText, limitTime, time } = item;
 

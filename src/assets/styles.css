@@ -17,3 +17,40 @@
 body {
 	background-color: var(--bs-gray-900);
 }
+
+.version-switch {
+	cursor: pointer;
+	color: var(--bs-light);
+}
+
+.version-switch .form-check-input {
+	background-color: var(--bs-gray-800);
+	border-color: #c8bcf6;
+	cursor: inherit;
+	background-image: radial-gradient(circle, #c8bcf6 40%, transparent 43%);
+	background-size: 1em 1em;
+}
+
+.version-switch .form-check-input:checked {
+	background-color: var(--jw-color);
+	border-color: #c8bcf6;
+}
+
+.version-switch .form-check-input:focus {
+	box-shadow: none;
+}
+
+.version-switch .form-check-input:focus-visible {
+	outline: 2px solid #c8bcf6;
+	outline-offset: 3px;
+}
+
+.meeting-tabs {
+	--bs-nav-link-color: var(--bs-light);
+	--bs-nav-link-hover-color: var(--bs-white);
+	--bs-nav-tabs-border-color: var(--bs-gray-600);
+	--bs-nav-tabs-link-hover-border-color: var(--bs-gray-600);
+	--bs-nav-tabs-link-active-color: var(--bs-white);
+	--bs-nav-tabs-link-active-bg: var(--jw-color);
+	--bs-nav-tabs-link-active-border-color: var(--jw-color);
+}

@@ -1,18 +1,20 @@
-import { FormValuesProps } from "../types/meetingSchedule";
+import { MeetingSchedule } from "../types/meetingSchedule";
 
-export function cacheMeetingTimer(data: object) {
-	if (!data) return;
+const sharedMeetingKey = "meeting-timer-shared";
+const updatedMeetingKey = "meeting-timer-updated";
+const legacyMeetingKey = "meeting-timer";
+const weekendMeetingKey = "meeting-timer-weekend";
 
-	localStorage.setItem("meeting-timer", JSON.stringify(data));
+export function cacheMeetingTimer(data: MeetingSchedule, weekend: boolean) {
+	localStorage.setItem(weekend ? weekendMeetingKey : sharedMeetingKey, JSON.stringify(data));
 }
 
-export function loadMeetingTimer(): FormValuesProps | null {
-	const strMeetingTimer = localStorage.getItem("meeting-timer");
-	if (!strMeetingTimer) return null;
-
-	return JSON.parse(strMeetingTimer);
-}
-
-export function removeCacheMeetingTimer() {
-	localStorage.removeItem("meeting-timer");
+export function loadMeetingTimer(updated: boolean, weekend: boolean): MeetingSchedule | null {
+	const previousKeys = updated ? [updatedMeetingKey, legacyMeetingKey] : [legacyMeetingKey, updatedMeetingKey];
+	const keys = weekend ? [weekendMeetingKey] : [sharedMeetingKey, ...previousKeys];
+	for (const key of keys) {
+		const savedMeeting = localStorage.getItem(key);
+		if (savedMeeting) return JSON.parse(savedMeeting);
+	}
+	return null;
 }
