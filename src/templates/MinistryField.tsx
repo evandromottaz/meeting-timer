@@ -7,25 +7,30 @@ import Fieldset from "../components/fieldset/Fieldset";
 import Timer from "../components/timer/Timer";
 import HeadingTimer from "../components/heading/Heading";
 import ModalTemplate from "../components/modal-template/ModalTemplate";
+import PartFields from "../components/part-fields/PartFields";
 import { meetingSections } from "../constants/meetingSections";
 
 const MinistryField = ({ updated }: { updated: boolean }) => {
-	const { control, getValues, setValue } = useFormContext<FormValuesProps>();
+	const { control, getValues, setValue, watch } = useFormContext<FormValuesProps>();
 	const { fields, append, remove } = useFieldArray({
 		control,
 		name: "ministryField.fields",
 	});
 
-	function addSection() {
-		const { hasAdvice, limitTime, pdfText, name, assistantName = "" } = getValues(
-			"ministryField.template"
+	function addInlinePart() {
+		append(
+			{ time: "", name: "", pdfText: "", limitTime: "" },
+			{ focusName: `ministryField.fields.${fields.length}.pdfText` }
 		);
+	}
+
+	function addLegacyPart() {
+		const { hasAdvice, limitTime, pdfText, name } = getValues("ministryField.template");
 		const advice = hasAdvice ? { advice: "" } : {};
 
 		append({
 			time: "",
 			name,
-			...(updated && { assistantName }),
 			pdfText,
 			limitTime,
 			...advice,
@@ -34,7 +39,6 @@ const MinistryField = ({ updated }: { updated: boolean }) => {
 		setValue("ministryField.template", {
 			hasAdvice: true,
 			name: "",
-			...(updated && { assistantName: "" }),
 			limitTime: "",
 			pdfText: "",
 		});
@@ -43,39 +47,49 @@ const MinistryField = ({ updated }: { updated: boolean }) => {
 	return (
 		<Fieldset title={updated ? meetingSections.ministry : "Faça seu melhor no ministério"}>
 			{fields.map((item, i) => {
-				const { id, pdfText, advice, time, name = "", placeholder } = item;
+				const { id, time, name = "", placeholder } = item;
+				const partName = `ministryField.fields.${i}` as const;
+				const adviceName = `${partName}.advice` as const;
+				const hasAdvice = updated || typeof watch(adviceName) === "string";
+				const inline = updated && i > 0;
 
 				return (
 					<Fragment key={id}>
-						<h3 className="heading border-top pt-3">{pdfText}</h3>
+						{inline ? (
+							<PartFields name={partName} onRemove={() => remove(i)} />
+						) : (
+							<h3 className="heading border-top pt-3">{watch(`${partName}.pdfText`)}</h3>
+						)}
 
 						<section className="d-flex align-items-center">
 							<InputTimer
-								defaultValue={name}
-								name={`ministryField.fields[${i}].name`}
+								defaultValue={updated ? undefined : name}
+								name={`${partName}.name`}
 								placeholder={placeholder ?? (updated ? "Nome do estudante" : "Nome")}
-								disabled={!updated && advice === undefined}
-								timerName={`ministryField.fields[${i}].time`}
+								aria-label={updated ? placeholder ?? "Nome do estudante" : undefined}
+								disabled={!updated && !hasAdvice}
+								required={!updated}
+								timerName={`${partName}.time`}
 							/>
-							<Timer name={`ministryField.fields[${i}].time`} defaultTime={time} />
+							<Timer name={`${partName}.time`} defaultTime={time} />
 						</section>
 
-					{updated && i > 0 && (
-						<Input
-							name={`ministryField.fields[${i}].assistantName`}
-							aria-label="Nome do ajudante"
-							placeholder="Nome do ajudante"
-							required={false}
-						/>
+						{inline && (
+							<Input
+								name={`${partName}.assistantName`}
+								aria-label="Nome do ajudante"
+								placeholder="Nome do ajudante"
+								required={false}
+							/>
 					)}
 
-						{typeof advice === "string" && (
-							<HeadingTimer type="advice" name={`ministryField.fields[${i}].advice`}>
+						{hasAdvice && (
+							<HeadingTimer type="advice" name={adviceName} recordZero={!updated}>
 								Conselho
 							</HeadingTimer>
 						)}
 
-						{i > 0 && (
+						{!updated && i > 0 && (
 							<Button
 								type="button"
 								onClick={() => remove(i)}
@@ -88,7 +102,11 @@ const MinistryField = ({ updated }: { updated: boolean }) => {
 				);
 			})}
 
-			<ModalTemplate addSection={addSection} updated={updated} />
+			{updated ? (
+				<Button className="btn btn-section" onClick={addInlinePart}>Adicionar parte</Button>
+			) : (
+				<ModalTemplate addSection={addLegacyPart} />
+			)}
 		</Fieldset>
 	);
 };

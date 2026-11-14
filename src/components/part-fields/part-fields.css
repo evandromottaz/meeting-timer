@@ -1,0 +1,17 @@
+.part-fields {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) clamp(4.75rem, 20vw, 7rem) 2.75rem;
+	align-items: end;
+	gap: 0.5rem;
+}
+
+.part-fields .form-control,
+.part-fields .btn {
+	min-height: 2.75rem;
+}
+
+.part-fields .btn {
+	display: grid;
+	place-items: center;
+	padding: 0;
+}
