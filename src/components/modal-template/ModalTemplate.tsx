@@ -6,9 +6,10 @@ import { FormValuesProps } from "../../types/meetingSchedule";
 
 interface ModalChristianLifeProps {
 	addSection: () => void;
+	updated: boolean;
 }
 
-const ModalTemplate = ({ addSection }: ModalChristianLifeProps) => {
+const ModalTemplate = ({ addSection, updated }: ModalChristianLifeProps) => {
 	const { register } = useFormContext<FormValuesProps>();
 
 	return (
@@ -38,6 +39,14 @@ const ModalTemplate = ({ addSection }: ModalChristianLifeProps) => {
 							className="form-control text-dark border-0 ps-3 mt-3 fs-5"
 							placeholder="Nome do estudante"
 						/>
+
+						{updated && (
+							<input
+								{...register("ministryField.template.assistantName")}
+								className="form-control text-dark border-0 ps-3 mt-3 fs-5"
+								placeholder="Nome do ajudante"
+							/>
+						)}
 
 						<input
 							{...register("ministryField.template.limitTime")}

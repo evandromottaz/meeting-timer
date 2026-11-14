@@ -1,5 +1,5 @@
 import jsPDF from "jspdf";
-import { FormValuesProps } from "../types/meetingSchedule";
+import { MeetingSchedule } from "../types/meetingSchedule";
 import MeetingStart from "../factories/MeetingStart";
 import President from "../factories/President";
 import MeetingEnd from "../factories/MeetingEnd";
@@ -10,14 +10,22 @@ import MinistryFields from "../factories/MinistryFields";
 import ChristianLife from "../factories/ChristianLife";
 
 const usePDF = () => {
-	const pdf = new jsPDF();
+	function renderPDF(data: MeetingSchedule) {
+		const pdf = new jsPDF();
+		const fullDate = new Intl.DateTimeFormat("pt-BR").format(new Date());
+		pdf.text(`Data da reunião: ${fullDate}`, 10, 10);
+		const fileDate = fullDate.replaceAll("/", "-");
 
-	const date = new Date()
-	const fullDate = new Intl.DateTimeFormat("pt-BR").format(date)
+		if ("speech" in data) {
+			pdf.text("Reunião de final de semana", 10, 20);
+			const parts = [data.meeting.start, data.speech, data.watchtower, data.meeting.end];
+			parts.forEach(({ pdfText, time }, index) => {
+				pdf.text(`${pdfText}: ${time}`, 10, 30 + index * 10);
+			});
+			pdf.save(`Reunião de final de semana ${fileDate}.pdf`);
+			return;
+		}
 
-	pdf.text(`Data da reunião: ${fullDate}`, 10, 10);
-
-	function renderPDF(data: FormValuesProps) {
 		const x = 10;
 		const y = 10
 		let line = 10;
@@ -53,7 +61,7 @@ const usePDF = () => {
 			pdf.text(rowData, x, line);
 		}
 
-		pdf.save(`Reunião dia ${fullDate.replaceAll("/", "-")}.pdf`);
+		pdf.save(`Reunião dia ${fileDate}.pdf`);
 	}
 
 	return renderPDF;
